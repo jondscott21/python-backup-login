@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="">
+    <title>books</title>
+    <style>
+        .leftside {
+            display: inline-block;
+            height: 100%;
+            width: 45%;
+            vertical-align: top;
+        }
+        .rightside {
+            vertical-align: top;
+            display: inline-block;
+            height: 100%;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+    <div class="leftside">
+        <h1>Welcome, {{ users.name }}</h1>
+        <p>Recent book reviews:</p>
+        <ul>
+        {% for review in reviews %}
+            <br>
+            <li><a href="/books/{{ review.book_id }}">{{ review.book.title }}</a></li>
+            <li>Rating: {{ review.rating }} Stars</li>
+            <li><a href="/user/{{ review.user_id }}">{{ review.user.alias }}</a> says: {{ review.review }}</li>
+            <li>Posted on: {{ review.created_at }}</li>
+            <br>
+            <hr>
+{#            <li><a href="/books/{{ book.id }}">{{ book.title }}</a></li>#}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="rightside">
+        <p><a href="/add">Add Book and Review</a></p>
+        <p><a href="/log_out">Log out</a></p>
+        <p>Other books with reviews</p>
+        <ul>
+        {% for book in books %}
+            <li><a href="/books/{{ book.id }}">{{ book.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+<script>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.review_set.review }}</li>
+            <li><a href="/books/{{ book.id }}">{{ book.title }}</a></li>
+            {% endfor %}
+        </ul>
+</script>
+</html>

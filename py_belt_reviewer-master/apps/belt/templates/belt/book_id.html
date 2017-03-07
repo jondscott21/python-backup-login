@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="">
+    <title>Book id</title>
+    <style>
+        .leftside {
+            display: inline-block;
+            height: 100%;
+            width: 45%;
+            vertical-align: top;
+        }
+        .rightside {
+            vertical-align: top;
+            display: inline-block;
+            height: 100%;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+<div class="leftside">
+    <h1>{{ book.title }}</h1>
+    <h3>{{ book.author.author }}</h3>
+
+    <ul>
+    <hr>
+        {% for review in reviews %}
+            <li><a href="../user/{{ review.user.id }}">{{ review.user.name }}</a> Says: </li>
+        <li> {{ review.review }}</li>
+        <li>Book Rating: {{ review.rating }}</li>
+        <li>Reviewed On: {{ review.created_at }}</li>
+            {% if review.user.id == request.session.id %}
+            <li><a href="../delete/{{ review.id }}">Remove Review</a></li>
+            {% endif %}
+            <br>
+            <hr>
+        {% endfor %}
+    </ul>
+
+
+</div>
+<div class="rightside">
+    {% if messages %}
+    <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+<form method="post" action="/proc_review/{{ id }}">
+    {% csrf_token %}
+    <textarea placeholder="Review:" name="review" rows="4"></textarea>
+    <input type="submit" value="Submit Review">
+    <select name='rating' id='rating' class='rating'>
+      <option value="">Select a Star Rating</option>
+      <option value="0">0 Stars</option>
+      <option value="1">1 Stars</option>
+      <option value="2">2 Stars</option>
+      <option value="3">3 Stars</option>
+      <option value="4">4 Stars</option>
+      <option value="5">5 Stars</option>
+    </select>
+  <label for='rating'>How Would You Rate This?</label>
+</form>
+<br>
+<br>
+<a href="/books">Return Home</a>
+<br>
+<br>
+<a href="/log_out">Log Out</a>
+
+</div>
+</body>
+</html>
+
+<script>
+
+</script>
+
